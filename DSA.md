@@ -1,7 +1,27 @@
 # Data Structures in Phone Book App 📱 - Complete Guide v2
 
+## INDEX
+
+- [Data Structures in Phone Book App 📱 - Complete Guide v2](#data-structures-in-phone-book-app----complete-guide-v2)
+  - [INDEX](#index)
+  - [1. ARRAY (Static/Dynamic)](#1-array-staticdynamic)
+  - [2. LINKED LIST](#2-linked-list)
+  - [3. STACK (LIFO - Last In First Out)](#3-stack-lifo---last-in-first-out)
+  - [4. QUEUE (FIFO - First In First Out)](#4-queue-fifo---first-in-first-out)
+  - [5. HASH TABLE / HASH MAP](#5-hash-table--hash-map)
+  - [6. BINARY SEARCH TREE (BST)](#6-binary-search-tree-bst)
+  - [7. HEAP (Priority Queue)](#7-heap-priority-queue)
+  - [8. GRAPH](#8-graph)
+  - [9. TRIE (Prefix Tree)](#9-trie-prefix-tree)
+  - [10. DEQUE (Double-ended Queue)](#10-deque-double-ended-queue)
+  - [Performance Comparison Summary](#performance-comparison-summary)
+  - [Real-World Phone Book Implementation](#real-world-phone-book-implementation)
+  - [🎯 Key Decision Matrix for Phone Book App](#-key-decision-matrix-for-phone-book-app)
+  - [🚀 Interview Pro Tips](#-interview-pro-tips)
+
 ## 1. ARRAY (Static/Dynamic)
 
+**What it is**: A collection of elements stored in contiguous memory locations, accessed by index positions.
 **Use Case**: Store contacts in insertion order, simple list display
 
 ```javascript
@@ -49,6 +69,7 @@ Contacts:   │ John: 123.. │ Alice: 987..│ Bob: 555..  │
 
 ## 2. LINKED LIST
 
+**What it is**: A linear collection of elements (nodes) where each node contains data and a pointer/reference to the next node.
 **Use Case**: Dynamic contact list where frequent insertion/deletion needed
 
 ```javascript
@@ -106,6 +127,7 @@ HEAD -> [John|123-456] -> [Alice|987-654] -> [Bob|555-123] -> NULL
 
 ## 3. STACK (LIFO - Last In First Out)
 
+**What it is**: A linear data structure where elements are added and removed from the same end (top), following Last-In-First-Out principle.
 **Use Case**: Recently called contacts, undo operations, call history
 
 ```javascript
@@ -161,6 +183,7 @@ Recent Calls Stack:
 
 ## 4. QUEUE (FIFO - First In First Out)
 
+**What it is**: A linear data structure where elements are added at one end (rear) and removed from the other end (front), following First-In-First-Out principle.
 **Use Case**: Call waiting queue, message queue
 
 ```javascript
@@ -214,6 +237,7 @@ Answer                        New Call
 
 ## 5. HASH TABLE / HASH MAP
 
+**What it is**: A data structure that maps keys to values using a hash function to compute array indices, enabling fast direct access.
 **Use Case**: Fast contact lookup by name or phone number
 
 ```javascript
@@ -270,6 +294,7 @@ Key (Name)    Hash    Bucket    Value (Phone)
 
 ## 6. BINARY SEARCH TREE (BST)
 
+**What it is**: A hierarchical tree structure where each node has at most two children, with left child smaller and right child larger than parent node.
 **Use Case**: Sorted contact list, alphabetical ordering
 
 ```javascript
@@ -344,6 +369,7 @@ Alphabetically Sorted Contacts BST:
 
 ## 7. HEAP (Priority Queue)
 
+**What it is**: A complete binary tree where parent nodes have higher (max-heap) or lower (min-heap) priority than their children, stored as an array.
 **Use Case**: VIP contacts (priority based), emergency contacts
 
 ```javascript
@@ -417,6 +443,7 @@ Priority levels: CEO(10) > Manager(7) > Friend(3) > Colleague(1)
 
 ## 8. GRAPH
 
+**What it is**: A collection of vertices (nodes) connected by edges, representing relationships between entities without hierarchical structure.
 **Use Case**: Social network connections, mutual contacts, contact relationships
 
 ```javascript
@@ -488,6 +515,7 @@ Social Network Graph:
 
 ## 9. TRIE (Prefix Tree)
 
+**What it is**: A tree-like data structure where each node represents a character, and paths from root to nodes represent strings/words with shared prefixes.
 **Use Case**: Auto-complete for contact names, T9 predictive text
 
 ```javascript
@@ -574,6 +602,7 @@ Contact Name Trie:
 
 ## 10. DEQUE (Double-ended Queue)
 
+**What it is**: A linear data structure that allows insertion and deletion at both ends (front and rear), combining features of stack and queue.
 **Use Case**: Recent contacts with both ends accessible, undo/redo operations
 
 ```javascript
