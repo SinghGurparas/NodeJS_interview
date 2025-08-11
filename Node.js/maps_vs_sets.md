@@ -1,8 +1,21 @@
 # Maps and Sets
 
-Let's dive into the common methods for `Map` and `Set` and how they differentiate from `Array` and `Object`.
+## How They Differ from Array and Object in Brief
 
------
+| Feature       | Map                                                    | Set                                             | Object                                                                 | Array                                                                  |
+| :------------ | :----------------------------------------------------- | :---------------------------------------------- | :--------------------------------------------------------------------- | :--------------------------------------------------------------------- |
+| **Data Type** | Collection of key-value pairs                          | Collection of unique values                     | Collection of key-value pairs                                          | Ordered collection of values                                           |
+| **Keys** | Can be **any data type** (objects, numbers, strings, etc.) | Values are the "keys" (unique)                  | **Strings** (or Symbols) only                                          | Integer indices (0, 1, 2, ...)                                         |
+| **Uniqueness**| Keys are unique                                        | **Values are unique** | Keys are unique                                                        | Values can be duplicated                                               |
+| **Order** | **Maintains insertion order** | **Maintains insertion order** | No guaranteed order (historically, now more predictable but not strict) | **Guaranteed order** (by index)                                        |
+| **Size** | `map.size` property                                    | `set.size` property                             | Must be calculated (e.g., `Object.keys(obj).length`)                   | `array.length` property                                                |
+| **Iteration** | Directly iterable (`for...of`), `forEach`              | Directly iterable (`for...of`), `forEach`       | Indirectly iterable (`for...in`, `Object.keys()`), no direct `forEach` | Directly iterable (`for...of`), `forEach`, `map`, `filter`, `reduce` |
+| **Use Case** | Storing data where diverse keys are needed, or order matters. | Storing unique items, removing duplicates.      | Storing structured data with known string keys.                        | Storing ordered lists of items, good for collections of similar data.  |
+
+**In essence:**
+
+* **`Map` vs. `Object`**: `Map` is more flexible with key types, guarantees insertion order, and is generally better for frequently adding/removing key-value pairs or when non-string keys are needed. Objects are simpler for static, known string-keyed data.
+* **`Set` vs. `Array`**: `Set` enforces uniqueness of values, making it ideal for maintaining a collection of distinct items or for easily filtering duplicates from an existing array. Arrays are for ordered collections where duplicates are allowed and indices are important.
 
 ## Map Methods
 
@@ -69,20 +82,3 @@ mySet.forEach(value => console.log(value)); // 1
 ```
 
 -----
-
-## How They Differ from Array and Object in Brief
-
-| Feature       | Map                                                    | Set                                             | Object                                                                 | Array                                                                  |
-| :------------ | :----------------------------------------------------- | :---------------------------------------------- | :--------------------------------------------------------------------- | :--------------------------------------------------------------------- |
-| **Data Type** | Collection of key-value pairs                          | Collection of unique values                     | Collection of key-value pairs                                          | Ordered collection of values                                           |
-| **Keys** | Can be **any data type** (objects, numbers, strings, etc.) | Values are the "keys" (unique)                  | **Strings** (or Symbols) only                                          | Integer indices (0, 1, 2, ...)                                         |
-| **Uniqueness**| Keys are unique                                        | **Values are unique** | Keys are unique                                                        | Values can be duplicated                                               |
-| **Order** | **Maintains insertion order** | **Maintains insertion order** | No guaranteed order (historically, now more predictable but not strict) | **Guaranteed order** (by index)                                        |
-| **Size** | `map.size` property                                    | `set.size` property                             | Must be calculated (e.g., `Object.keys(obj).length`)                   | `array.length` property                                                |
-| **Iteration** | Directly iterable (`for...of`), `forEach`              | Directly iterable (`for...of`), `forEach`       | Indirectly iterable (`for...in`, `Object.keys()`), no direct `forEach` | Directly iterable (`for...of`), `forEach`, `map`, `filter`, `reduce` |
-| **Use Case** | Storing data where diverse keys are needed, or order matters. | Storing unique items, removing duplicates.      | Storing structured data with known string keys.                        | Storing ordered lists of items, good for collections of similar data.  |
-
-**In essence:**
-
-* **`Map` vs. `Object`**: `Map` is more flexible with key types, guarantees insertion order, and is generally better for frequently adding/removing key-value pairs or when non-string keys are needed. Objects are simpler for static, known string-keyed data.
-* **`Set` vs. `Array`**: `Set` enforces uniqueness of values, making it ideal for maintaining a collection of distinct items or for easily filtering duplicates from an existing array. Arrays are for ordered collections where duplicates are allowed and indices are important.

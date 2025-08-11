@@ -1,6 +1,4 @@
-Alright Gurparas — let’s break down **transactions** for **MySQL**, **MongoDB**, and **Redis** in a way that’s interview-ready but also easy to explain with examples.
-
----
+# Transactions
 
 ## **1. MySQL Transactions**
 

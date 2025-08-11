@@ -1,8 +1,4 @@
-Alright — let’s break **gRPC** down like I’m explaining it in an interview, with both the *definition* and the *behind-the-scenes* so you don’t just know what it is, but *why* it exists and *when* to use it.
-
----
-
-## **gRPC – Definition**
+# **gRPC – Definition**
 
 > gRPC (**g**oogle **R**emote **P**rocedure **C**all) is a **high-performance, open-source RPC framework** that uses **HTTP/2** as its transport protocol and **Protocol Buffers (protobuf)** as its interface definition language (IDL) for defining APIs and serializing data.
 

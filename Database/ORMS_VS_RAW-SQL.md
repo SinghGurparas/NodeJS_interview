@@ -1,6 +1,4 @@
-Alright — let’s make this interview-ready and cover **Raw SQL vs ORM** from both a **practical** and **conceptual** perspective, along with all the important terms (lingos) you might get quizzed on.
-
----
+# RAW SQL VS ORMS
 
 ## **1. What is Raw SQL?**
 
@@ -71,6 +69,186 @@ If this comes up in an interview, expect **follow-up questions** like:
 
 ---
 
+### **1. SQL Injection — “How does ORM prevent SQL injection?”**
+
+**Answer:**
+SQL Injection happens when untrusted input is directly concatenated into a query string, letting attackers run arbitrary SQL.
+ORMs prevent it by **parameterizing queries** — instead of inserting raw text, they use placeholders and bind values separately. This way, the DB engine treats the value purely as data, not code.
+
+**Example in Sequelize:**
+
+```js
+User.findOne({ where: { id: userInputId } });
+```
+
+This internally generates:
+
+```sql
+SELECT * FROM users WHERE id = ?  -- value is bound, not concatenated
+```
+
+---
+
+### **2. Query Builder — “What’s the difference between ORM and Query Builder like Knex.js?”**
+
+**Answer:**
+
+* **Query Builder**: Lets you build SQL queries programmatically (e.g., method chaining), but you still think in SQL terms — no automatic mapping of results to models/objects.
+* **ORM**: Adds a mapping layer — database tables become JavaScript classes with CRUD methods, relationships, and lifecycle hooks.
+
+Think of a Query Builder as **"SQL with helper functions"**, while an ORM is **"SQL + an object mapping abstraction"**.
+
+---
+
+## **3. Eager vs Lazy Loading — “How does your ORM handle joins?”**
+
+**Answer:**
+
+* **Eager Loading**: Fetches related data immediately in a single query (often using JOINs).
+* **Lazy Loading**: Fetches related data only when you explicitly request it, usually via a separate query.
+
+**Example in Sequelize:**
+
+```js
+// Eager loading
+User.findAll({ include: Post }); // Single SQL with JOIN
+
+// Lazy loading
+const user = await User.findByPk(1);
+const posts = await user.getPosts(); // Separate SQL
+```
+
+**Trade-off**: Eager loading reduces queries but may fetch unused data; lazy loading is flexible but risks **N+1 queries**.
+
+---
+
+## **4. N+1 Problem — “How would you prevent N+1 queries in Sequelize/TypeORM?”**
+
+**Answer:**
+The **N+1 problem** occurs when fetching a list of records triggers a separate query for each record’s related data.
+**Fix**: Use **eager loading** or **batch fetching**.
+
+Example:
+
+```js
+// BAD: N+1 Problem
+const users = await User.findAll();
+for (const user of users) {
+  await user.getPosts(); // One query per user
+}
+
+// GOOD: Eager loading
+const users = await User.findAll({ include: Post });
+```
+
+---
+
+## **5. Parameterized Queries — “Show me a safe query in raw SQL.”**
+
+**Answer:**
+Parameterized queries use placeholders and bind variables separately, avoiding injection.
+
+```js
+// mysql2
+const [rows] = await db.query('SELECT * FROM users WHERE id = ?', [userId]);
+```
+
+Here, `?` is replaced safely with `userId`, without altering the SQL syntax.
+
+---
+
+## **6. Migrations — “How does your ORM handle migrations?”**
+
+**Answer:**
+Migrations are version-controlled scripts that apply schema changes (tables, columns, indexes) incrementally.
+Most ORMs include a CLI for:
+
+* `generate migration`: Create a migration file from schema changes.
+* `run migration`: Apply changes to the database.
+* `revert migration`: Roll back a change.
+
+Example (Sequelize):
+
+```bash
+npx sequelize-cli migration:generate --name add-age-to-users
+npx sequelize-cli db:migrate
+```
+
+---
+
+## **7. Dialect — “What happens if you change DB vendor with ORM?”**
+
+**Answer:**
+ORMs abstract SQL dialect differences (e.g., MySQL vs PostgreSQL syntax). If you switch DB vendor:
+
+* The ORM translates queries into the new dialect.
+* Some DB-specific features (like JSON columns, full-text search) may break or need rewriting.
+* You may need to reconfigure connection settings and run compatible migrations.
+
+---
+
+## **8. Transactions — “How do you handle transactions in ORM vs raw SQL?”**
+
+**Answer:**
+Transactions group multiple queries into an **atomic block** — either all succeed or all fail.
+
+**Raw SQL:**
+
+```js
+await db.beginTransaction();
+await db.query('UPDATE accounts SET balance = balance - 100 WHERE id = 1');
+await db.query('UPDATE accounts SET balance = balance + 100 WHERE id = 2');
+await db.commit();
+```
+
+**Sequelize:**
+
+```js
+await sequelize.transaction(async (t) => {
+  await Account.update({ balance: balance - 100 }, { where: { id: 1 }, transaction: t });
+  await Account.update({ balance: balance + 100 }, { where: { id: 2 }, transaction: t });
+});
+```
+
+---
+
+## **9. Connection Pooling — “Is pooling handled differently in ORM?”**
+
+**Answer:**
+Connection pooling keeps DB connections open for reuse instead of reconnecting for every request.
+Most ORMs handle pooling internally using their underlying DB driver. You configure it in the ORM settings:
+
+Example (Sequelize):
+
+```js
+new Sequelize(DB, USER, PASS, {
+  pool: { max: 10, min: 0, idle: 10000 }
+});
+```
+
+With raw SQL, you’d configure pooling directly in the driver.
+
+---
+
+## **10. Mapping — “How does ORM map data types between SQL and JS?”**
+
+**Answer:**
+ORMs automatically convert DB types into JS equivalents:
+
+* `INTEGER` → `number`
+* `VARCHAR` → `string`
+* `BOOLEAN` → `true/false`
+* `TIMESTAMP` → JS `Date` object
+
+They handle serialization/deserialization behind the scenes so you work with native JS types instead of parsing them manually.
+
+---
+
+If you want, I can also make you a **one-page “Raw SQL vs ORM Interview Battle Card”** where I compress all this into a single visual table you can recall instantly during interviews.
+Do you want me to prepare that?
+
+---
+
 ## **4. When to Use Raw SQL vs ORM**
 
 **Use Raw SQL when:**
@@ -90,13 +268,13 @@ If this comes up in an interview, expect **follow-up questions** like:
 
 ## **5. Example Comparison**
 
-### Raw SQL:
+### Raw SQL
 
 ```js
 const [rows] = await db.query('SELECT name FROM users WHERE active = ?', [true]);
 ```
 
-### ORM (Sequelize):
+### ORM (Sequelize)
 
 ```js
 const users = await User.findAll({ where: { active: true }, attributes: ['name'] });
@@ -112,6 +290,3 @@ const users = await User.findAll({ where: { active: true }, attributes: ['name']
 * Mention **Query Optimization**: Even with ORM, you should inspect and index for slow queries.
 
 ---
-
-If you want, I can make you a **short "cheat sheet table"** that lists *every ORM vs raw SQL point in one glance* so you can recall it in seconds during an interview.
-Would you like me to prepare that?
